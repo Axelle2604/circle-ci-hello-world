@@ -1,0 +1,8 @@
+version: 2.1 # Version of YamL
+jobs: # Jobs run in different containers
+  build: # First job
+    docker: # We use docker
+      - image: circleci/node:latest # docker image
+    steps: # All the thinks to do in this container
+      - checkout # Mandatory step to get all the source code
+      - run: echo "Hello Stackerine" # First command
