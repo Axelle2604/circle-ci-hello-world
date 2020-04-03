@@ -5,4 +5,4 @@ jobs: # Jobs run in different containers
       - image: circleci/node:latest # docker image
     steps: # All the thinks to do in this container
       - checkout # Mandatory step to get all the source code
-      - run: echo "Hello Stackerine" # First command
+      - run: echo ls -a # First command
