@@ -6,3 +6,4 @@ jobs: # Jobs run in different containers
     steps: # All the thinks to do in this container
       - checkout # Mandatory step to get all the source code
       - run: ls -a # First command test
+      - run: docker --version
