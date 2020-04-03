@@ -14,6 +14,6 @@ app.post("/calcul", function(req, res) {
 
 const calculSum = (val1, val2) => parseInt(val1) + parseInt(val2);
 
-app.listen(8080, () => console.log("Server started."));
+app.listen(process.env.PORT || 8080, () => console.log("Server started."));
 
 module.exports = { calculSum };
