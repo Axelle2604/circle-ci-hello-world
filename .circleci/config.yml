@@ -1,9 +1,51 @@
 version: 2.1 # Version of YamL
 jobs: # Jobs run in different containers
-  build: # First job
+  Client-Test:
     docker: # We use docker
-      - image: circleci/node:latest # docker image
+      - image: circleci/node:latest
     steps: # All the thinks to do in this container
       - checkout # Mandatory step to get all the source code
-      - run: ls -a # First command test
-      - run: docker --version
+      - run: curl -o- -L https://yarnpkg.com/install.sh | bash
+      - restore_cache:
+          name: Restore Yarn Package Cache
+          keys:
+            - client-yarn-packages-{{ checksum "client/yarn.lock" }}
+      - run:
+          name: Install-Dep
+          command: cd client && yarn install --frozen-lockfile
+      - save_cache:
+          name: Save Yarn Package Cache
+          key: client-yarn-packages-{{ checksum "client/yarn.lock" }}
+          paths:
+            - ~/.cache/yarn
+      - run:
+          name: Run-Test
+          command: cd client && yarn test
+  Server-Test:
+    docker: # We use docker
+      - image: circleci/node:latest
+    steps: # All the thinks to do in this container
+      - checkout # Mandatory step to get all the source code
+      - run: curl -o- -L https://yarnpkg.com/install.sh | bash
+      - restore_cache:
+          name: Restore Yarn Package Cache
+          keys:
+            - server-yarn-packages-{{ checksum "server/yarn.lock" }}
+      - run:
+          name: Install-Dep
+          command: cd server && yarn install --frozen-lockfile
+      - save_cache:
+          name: Save Yarn Package Cache
+          key: server-yarn-packages-{{ checksum "server/yarn.lock" }}
+          paths:
+            - ~/.cache/yarn
+      - run:
+          name: Run-Test
+          command: cd server && yarn test
+
+workflows:
+  version: 2
+  Example_Workflow:
+    jobs:
+      - Client-Test
+      - Server-Test
