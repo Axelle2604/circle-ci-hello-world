@@ -45,7 +45,7 @@ jobs: # Jobs run in different containers
   Deploy:
     docker: # We use docker
       - image: circleci/node:latest
-    steps: # All the thinks to do in this container
+    steps:
       - checkout
       - run:
           name: Push to Heroku
@@ -57,7 +57,7 @@ workflows:
     jobs:
       - Client-Test
       - Server-Test
-      - Deploy
+      - Deploy:
           requires:
-          - Client-Test
-          - Server-Test
+            - Client-Test
+            - Server-Test
