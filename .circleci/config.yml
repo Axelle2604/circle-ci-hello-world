@@ -58,6 +58,7 @@ workflows:
       - Client-Test
       - Server-Test
       - Deploy:
+          type: approval
           requires:
             - Client-Test
             - Server-Test
